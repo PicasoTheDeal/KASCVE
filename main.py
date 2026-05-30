@@ -24,19 +24,19 @@ def display_banner():
                   |  |          ████   █████  ███   █     █   █  ███
                   |  |          █ \ █  █   █    █   █     \   /  █  
                   |  |          █  \█  █   █  ███   ███    \_/   ███
-              .--.----.--.       --  --- --  ---  ---    --   --- 
+              .--.----.--.       --  --- --  ---  ---     --   --- 
             .-----\__/-----.    --------------------------------------------------------
-    ___---¯¯////¯¯|\/|¯¯\\\\¯¯---___
- /¯¯ __O_--////   |  |   \\\\--_O__ ¯¯\    KERNEL ASSET SURFACE & CVE EVALUATOR FRAMEWORK
-| O?¯      ¯¯¯    |  |    ¯¯¯      ¯?O | 
-|  '    _.-.      |  |      .-._    '  |   [+] Deployment Architecture Hardening Engine
+ ___---¯¯////¯¯|\/|¯¯\\\\¯¯---___
+/¯¯ __O_--////   |  |   \\\\--_O__ ¯¯\    KERNEL ASSET SURFACE & CVE EVALUATOR FRAMEWORK
+| O?¯     ¯¯¯    |  |    ¯¯¯     ¯?O | 
+|  '    _.-.      |  |      .-._    '  |    [+] Deployment Architecture Hardening Engine
 |O|    ?..?      ./  \.      ?..?    |O|
-| |     '?. .-.  | /\ |  .-. .?'     | |   --------------------------------------------------------
+| |     '?. .-.  | /\ |  .-. .?'     | |    --------------------------------------------------------
 | ---__  ¯?__?  /|\¯¯/|\  ?__?¯  __--- |
 |O     \         ||\/ |         /     O|
 |       \  /¯?_  ||   |  _?¯\  /       |
 |       / /    - ||   | -    \ \       |
-|O   __/  | __   ||   |   __ |  \__   O|
+|O    __/  | __   ||   |   __ |  \__    O|
 | ---     |/  -_/||   |\_-  \|     --- | 
 |O|            \ ||   | /    made by   |O|  
 \ '              ||   | PicasoTheDealer /
@@ -56,6 +56,15 @@ def display_banner():
                    \/"
     """ + RESET)
 
+def print_disclaimer():
+    print(YELLOW + "=" * 90 + RESET)
+    print(RED + "[!] LEGAL WARNING: FOR AUTHORIZED SECURITY AUDITING ONLY [!]" + RESET)
+    print(" This tool is engineered strictly for educational purposes, authorized")
+    print(" penetration testing, and defensive system hardening.")
+    print(" Running KASCVE against unauthorized targets is strictly illegal.")
+    print(" The developer assumes zero liability for misuse, damage, or legal risk.")
+    print(YELLOW + "=" * 90 + RESET + "\n")
+
 def display_menu():
     print(CYAN + "Select Audit Operating Module Options:" + RESET)
     print(" [1] Baseline Passive Scan (Default Component & CVE Audit)")
@@ -63,12 +72,16 @@ def display_menu():
     print(" [3] File Upload Integrity Audit (Trojan & Execution Prevention)")
     print(" [4] Complete Stack Evaluation (Execute All Modules Simultaneously)")
     print("-" * 90)
-    try:
-        choice = input(CYAN + "Enter option number [1-4]: " + RESET).strip()
-        return choice if choice in ["1", "2", "3", "4"] else "1"
-    except (KeyboardInterrupt, EOFError):
-        print("\n[-] Operation canceled by user.")
-        sys.exit(0)
+    
+    while True:
+        try:
+            choice = input(CYAN + "Enter option number [1-4]: " + RESET).strip()
+            if choice in ["1", "2", "3", "4"]:
+                return choice
+            print(RED + "[!] Invalid input. Please enter a correct option number between 1 and 4." + RESET)
+        except (KeyboardInterrupt, EOFError):
+            print(RED + "\n[-] Operation canceled by user." + RESET)
+            sys.exit(0)
 
 def display_fuzzing_depth_menu():
     print(CYAN + "\nSelect SecLists Directory Fuzzing Range Depth:" + RESET)
@@ -76,12 +89,16 @@ def display_fuzzing_depth_menu():
     print(" [2] Balanced Common Sweep (Full SecLists common.txt Directory - ~4.5k entries)")
     print(" [3] Brutal Fuzz Run (SecLists raft-medium-directories.txt - Large Runtime)")
     print("-" * 90)
-    try:
-        choice = input(CYAN + "Enter selection [1-3]: " + RESET).strip()
-        return choice if choice in ["1", "2", "3"] else "1"
-    except (KeyboardInterrupt, EOFError):
-        print("\n[-] Operation canceled.")
-        sys.exit(0)
+    
+    while True:
+        try:
+            choice = input(CYAN + "Enter selection [1-3]: " + RESET).strip()
+            if choice in ["1", "2", "3"]:
+                return choice
+            print(RED + "[!] Invalid input. Please enter a correct option number between 1 and 3." + RESET)
+        except (KeyboardInterrupt, EOFError):
+            print(RED + "\n[-] Operation canceled." + RESET)
+            sys.exit(0)
 
 def analyze_forgotten_assets(working_paths):
     """
@@ -107,8 +124,8 @@ def analyze_forgotten_assets(working_paths):
                 found_issues = True
                 color = RED if severity == "CRITICAL" else YELLOW
                 print(f" {color}[{severity}]{RESET} Exposed Asset Identified: {url}")
-                print(f"   ├── Impact Context: {detail}")
-                print(f"   └── {BLUE}Remediation Plan:{RESET} {fix}\n")
+                print(f"    ├── Impact Context: {detail}")
+                print(f"    └── {BLUE}Remediation Plan:{RESET} {fix}\n")
                 
     if not found_issues:
         print(f"{GREEN}[+] Zero residual sandbox systems or exposed backup resources located over scanned paths.{RESET}")
@@ -150,14 +167,14 @@ def print_security_header_matrix(missing_headers):
             severity_color = RED if meta["severity"] in ["CRITICAL", "HIGH"] else YELLOW
             
             print(f" {severity_color}[{meta['severity']} VULNERABILITY]{RESET} Missing Protocol Header: `{h}`")
-            print(f"   ├── Threat Context:   {meta['impact']}")
-            print(f"   └── {BLUE}Explicit Configuration Instructions:{RESET}")
-            print(f"       ├── For Nginx Configuration [Edit: /etc/nginx/nginx.conf or sites-available/]:")
-            print(f"       │   └── \033[92m{meta['nginx']}\033[0m")
-            print(f"       ├── For Apache Deployment   [Edit: .htaccess or httpd.conf]:")
-            print(f"       │   └── \033[92m{meta['apache']}\033[0m")
-            print(f"       └── For Laravel Framework   [Edit Middleware Layers]:")
-            print(f"           └── \033[92m{meta['laravel']}\033[0m\n")
+            print(f"    ├── Threat Context:   {meta['impact']}")
+            print(f"    └── {BLUE}Explicit Configuration Instructions:{RESET}")
+            print(f"        ├── For Nginx Configuration [Edit: /etc/nginx/nginx.conf or sites-available/]:")
+            print(f"        │   └── \033[92m{meta['nginx']}\033[0m")
+            print(f"        ├── For Apache Deployment   [Edit: .htaccess or httpd.conf]:")
+            print(f"        │   └── \033[92m{meta['apache']}\033[0m")
+            print(f"        └── For Laravel Framework   [Edit Middleware Layers]:")
+            print(f"            └── \033[92m{meta['laravel']}\033[0m\n")
 
 def print_remediation_card(tech, findings):
     if not findings:
@@ -171,6 +188,7 @@ def print_remediation_card(tech, findings):
 
 def main():
     display_banner()
+    print_disclaimer()
     
     if len(sys.argv) < 2:
         print(RED + "Usage: KASCVE <domain.com>" + RESET)
@@ -231,13 +249,13 @@ def main():
                 
                 if form["method"] == "get":
                     print(f"   ├── {RED}[HIGH VULNERABILITY] Submits data via unencrypted HTTP GET parameters.{RESET}")
-                    print(f"   │    └── Fix Advisory: Change form attributes to method='POST' immediately.")
+                    print(f"   │   └── Fix Advisory: Change form attributes to method='POST' immediately.")
                 else:
                     print(f"   ├── {GREEN}[SECURE] Submits data via isolated HTTP POST parameter payload.{RESET}")
                     
                 if not form["has_csrf"]:
                     print(f"   └── {RED}[HIGH VULNERABILITY] Missing structural Anti-CSRF verification tokens.{RESET}")
-                    print(f"        └── Fix Advisory: Include framework-level security tokens (e.g., @csrf in Laravel).")
+                    print(f"       └── Fix Advisory: Include framework-level security tokens (e.g., @csrf in Laravel).")
                 else:
                     print(f"   └── {GREEN}[SECURE] Verification tokens configured correctly inside form parameters.{RESET}")
         else:
@@ -259,7 +277,7 @@ def main():
                 
                 if form["missing_accept"]:
                     print(f"   └── {RED}[MEDIUM VULNERABILITY] HTML input does not specify client-side file-type filters.{RESET}")
-                    print(f"        └── Fix Advisory: Restrict options explicitly on the frontend (e.g., accept='image/png').")
+                    print(f"       └── Fix Advisory: Restrict options explicitly on the frontend (e.g., accept='image/png').")
                 else:
                     print(f"   └── {GREEN}[SECURE] Client-side layout restrictions present on file selection field.{RESET}")
         else:
