@@ -88,5 +88,9 @@ When vulnerabilities are discovered, KASCVE outputs direct production layout fil
 * **Modern Framework Middleware:** Provides direct paths to safely isolate variables out of executable roots.
 
 ---
+### ⚠️ Legal Disclaimer
+This tool is strictly developed for educational purposes, authorized security auditing, and defensive hardening. Running KASCVE against targets without prior written consent is illegal and a violation of computer misuse laws. The developer assumes no liability and is not responsible for any misuse, damage, or unauthorized scanning caused by this program.
+
+---
 **Developer:** PicasoTheDealer
 _Licensed under the MIT License._
