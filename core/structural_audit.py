@@ -15,7 +15,6 @@ def audit_web_surfaces(url_list):
     
     headers_checked = False
 
-    # Process every working endpoint located by the SecList pass
     for url in url_list:
         try:
             print(f" \033[94m├── [PARSE ENGINE] Scraping target path: {url}\033[0m")
